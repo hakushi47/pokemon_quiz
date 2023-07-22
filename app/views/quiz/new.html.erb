@@ -1,0 +1,92 @@
+<div class="body">  
+  <h1 class="title"> このポケモンだーれだ！ </h1>
+    <div class="column is-8">
+      <div class="p-description">
+
+      <% if @pokemon.present? %>
+
+        <table>
+        <tr><td id="td1">たかさ　：</td><td id="td2"><%= @pokemon.height %></td></tr>
+        <tr><td id="td1">おもさ　：</td><td id="td2"><%= @pokemon.weight %></td></tr>
+        <tr><td id="td1">タイプ　：</td><td id="td2"><%= @pokemon.types %></td></tr>
+        <tr><td id="td1">図鑑説明：</td><td id="td2"><%= @pokemon.description %></td></tr>
+        </table>
+
+
+
+        <!--ヒントを取得-->
+        <script>
+          var h_1 = '<%= @pokemon.hint1 %>';
+          var h_2 = '<%= @pokemon.hint2 %>';
+          var h_3 = '<%= @pokemon.hint3 %>';
+        </script>
+
+        <!--ヒントボタン-->
+        <!--スクリプトタブの中で変数に代入すれば使える　※シングルクォーテーション必須-->
+        <button class ="btn--orange" id = "hint1" onclick="alert(h_1)">ヒント1</button>
+        <button class ="btn--orange" id = "hint2" onclick="alert(h_2)">ヒント2</button>
+        <button class ="btn--orange" id = "hint3" onclick="alert(h_3)">ヒント3</button>
+        
+        <br>
+
+        <%= render "shared/search", { path: quiz_index_path } %>
+
+        <script language="javascript" type="text/javascript">
+          showMessage = () => {
+            /*formに入力された情報の取得*/
+            textbox = document.getElementById("input-message");
+            inputValue = textbox.value;
+            /*表示する内容設定*/
+            output = "答え：" + inputValue;
+            var str = '<%= @pokemon.name %>';
+            var miss = "残念^^";
+
+
+            /*ポップアップの入力指示*/
+            const clickBtn = document.getElementById('click-btn');
+            const popupWrapper = document.getElementById('popup-wrapper');
+            const close = document.getElementById('close');
+            
+
+            if(inputValue === str){
+              /*答えの名前と画像の表示*/
+              document.getElementById("output-message").innerHTML = output;
+              document.getElementById("image").innerHTML = image;
+              /*ポップアップの表示*/
+              popupWrapper.style.display = "block";
+              /*次へボタン*/
+              nextbutton.style.display = "block";
+
+              /*xを押したらポップアップが消える*/
+              popupWrapper.addEventListener('click', e => {
+                if (e.target.id === popupWrapper.id || e.target.id === close.id) {
+                  popupWrapper.style.display = 'none';
+                }
+              });
+              
+              /*正解なら入力フォームを消す。*/
+              form1.style.display = 'none';
+
+            }else{
+              /*不正解の場合の表示*/
+              document.getElementById("output-message").innerHTML = miss;
+            }  
+          }
+        </script>
+
+        <% end %>
+      <!--
+        <!--ポップアップ　cssにより初期は非表示-->
+        <div id="popup-wrapper">
+          <div id="popup-inside">
+            <div id="close">x</div>
+              <div id="message">
+                <!-- <h2>正解！！</h2> -->
+            </div>
+          </div>
+        </div> 
+        
+
+      </div>
+    </div>
+</div>
